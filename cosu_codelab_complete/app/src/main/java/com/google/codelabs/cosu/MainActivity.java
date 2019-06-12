@@ -46,19 +46,18 @@ public class MainActivity extends Activity {
     private Button takePicButton;
     private Button lockTaskButton;
     private ImageView imageView;
-    private String mCurrentPhotoPath;
     private int permissionCheck;
+    private String mCurrentPhotoPath;
     private PackageManager mPackageManager;
 
-    private DevicePolicyManager mDevicePolicyManager;
     private ComponentName mAdminComponentName;
+    private DevicePolicyManager mDevicePolicyManager;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private static final String FILE_TAG = "File Creation";
 
-    public static final String EXTRA_FILEPATH =
-            "com.google.codelabs.cosu.EXTRA_FILEPATH";
+    public static final String EXTRA_FILEPATH = "com.google.codelabs.cosu.EXTRA_FILEPATH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,22 +77,17 @@ public class MainActivity extends Activity {
                         Log.e(FILE_TAG,e.getMessage());
                     }
                     if (photoFile != null) {
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                                Uri.fromFile(photoFile));
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
                     }
                 }
                 else{
-                    Toast.makeText(
-                            getApplicationContext(),R.string.no_camera_apps,
-                            Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(getApplicationContext(),R.string.no_camera_apps, Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        mDevicePolicyManager = (DevicePolicyManager)
-                getSystemService(Context.DEVICE_POLICY_SERVICE);
+        mDevicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
         mAdminComponentName = DeviceAdminReceiver.getComponentName(this);
 
@@ -103,15 +97,12 @@ public class MainActivity extends Activity {
         lockTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( mDevicePolicyManager.isDeviceOwnerApp(
-                        getApplicationContext().getPackageName())) {
-                    Intent lockIntent = new Intent(getApplicationContext(),
-                            LockedActivity.class);
+                if ( mDevicePolicyManager.isDeviceOwnerApp(getApplicationContext().getPackageName())) {
+                    Intent lockIntent = new Intent(getApplicationContext(), LockedActivity.class);
                     lockIntent.putExtra(EXTRA_FILEPATH,mCurrentPhotoPath);
 
                     mPackageManager.setComponentEnabledSetting(
-                            new ComponentName(getApplicationContext(),
-                                    LockedActivity.class),
+                            new ComponentName(getApplicationContext(), LockedActivity.class),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
                     startActivity(lockIntent);
@@ -129,8 +120,7 @@ public class MainActivity extends Activity {
         // Check to see if permission to access external storage is granted,
         // and request if not
 
-        permissionCheck = ContextCompat.checkSelfPermission(
-                this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -142,14 +132,12 @@ public class MainActivity extends Activity {
 
         Intent intent = getIntent();
 
-        if(intent.getIntExtra(LockedActivity.LOCK_ACTIVITY_KEY,0) ==
-               LockedActivity.FROM_LOCK_ACTIVITY){
-            mDevicePolicyManager.clearPackagePersistentPreferredActivities(
-                    mAdminComponentName,getPackageName());
+        if(intent.getIntExtra(LockedActivity.LOCK_ACTIVITY_KEY,0) == LockedActivity.FROM_LOCK_ACTIVITY){
+            mDevicePolicyManager.clearPackagePersistentPreferredActivities(mAdminComponentName,getPackageName());
             mPackageManager.setComponentEnabledSetting(
-                    new ComponentName(getApplicationContext(), LockedActivity.class),
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP);
+                                                        new ComponentName(getApplicationContext(), LockedActivity.class),
+                                                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                                        PackageManager.DONT_KILL_APP);
         }
     }
 
@@ -158,15 +146,13 @@ public class MainActivity extends Activity {
         //Check for storage permission
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             // Create an image file name
-            String timeStamp =
-                    new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
-            File storageDir = getApplicationContext().getExternalFilesDir(
-                    null);
+            File storageDir = getApplicationContext().getExternalFilesDir(null);
             File image = File.createTempFile(
-                    imageFileName,  /* prefix */
-                    ".jpg",         /* suffix */
-                    storageDir      /* directory */
+                                            imageFileName,  /* prefix */
+                                            ".jpg",         /* suffix */
+                                            storageDir      /* directory */
             );
             // Save a file: path for use with ACTION_VIEW intents
             mCurrentPhotoPath = image.getAbsolutePath();
@@ -176,21 +162,18 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode,
-            int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             setImageToView();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-            String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 // If request is cancelled, results array is empty
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     permissionCheck=grantResults[0];
                 } else {
                     takePicButton.setEnabled(false);

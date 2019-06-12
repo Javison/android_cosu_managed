@@ -30,11 +30,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <TextView
+            android:id="@+id/tv_lock_properties"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/lock_imageView"
-            android:contentDescription="@string/lock_image_description"/>
+            android:layout_height="wrap_content"
+            android:text="Texto inicial recuperado de properties"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stop_lock_button"
-            android:id="@+id/stop_lock_button"/>
+            android:id="@+id/btn_stop_lock_button"/>
 
     </LinearLayout>
 
