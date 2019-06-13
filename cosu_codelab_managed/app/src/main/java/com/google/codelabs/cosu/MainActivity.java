@@ -72,6 +72,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                                                         PackageManager.DONT_KILL_APP);
         }
+
+        mBtnLockTask.setEnabled(true);
     }
 
 
@@ -92,6 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (requestCode == REQUEST_UPDATE_PROPERTIES && resultCode == RESULT_OK) {
             // setImageToView();
             // Writte something on TextView
+            mBtnLockTask.setEnabled(true);
         }
     }
 
@@ -109,7 +112,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Intent lockIntent = new Intent(getApplicationContext(), LockedActivity.class);
                     lockIntent.putExtra(EXTRA_FILEPATH, mPropertiesString);
 
-                    mPackageManager.setComponentEnabledSetting(new ComponentName(getApplicationContext(),LockedActivity.class),
+                    mPackageManager.setComponentEnabledSetting(new ComponentName(getApplicationContext(), LockedActivity.class),
                                                                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                                                                 PackageManager.DONT_KILL_APP);
                     startActivity(lockIntent);
@@ -124,9 +127,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_save_preferences:
                 Log.d(LOG_TAG, "btn_save_preferences");
 
-                //Intent intent = new Intent(getApplicationContext(), JukeboxActivity.class);
-                //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                //Intent intent = new Intent(getApplicationContext(), );
+                //intent.putExtra("SAMPLE_INTENT", "Dato a preferencias llegados de Intent");
                 //startActivityForResult(intent, REQUEST_UPDATE_PROPERTIES);
+
                 break;
         }
 

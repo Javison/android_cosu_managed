@@ -26,4 +26,5 @@
     <string name="stop_lock_button">Stop lock task mode</string>
     <string name="not_lock_whitelisted">This app has not been whitelisted to
         start lock task mode</string>
+    <string name="title_activity_save_preferences">SavePreferencesActivity</string>
 </resources>

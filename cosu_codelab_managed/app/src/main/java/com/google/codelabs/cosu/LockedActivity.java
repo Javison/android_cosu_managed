@@ -135,8 +135,7 @@ public class LockedActivity extends Activity implements View.OnClickListener {
     private void enableStayOnWhilePluggedIn(boolean enabled){
         Log.d(LOG_TAG, "enableStayOnWhilePluggedIn: " + enabled);
         if (enabled) {
-            mDevicePolicyManager.setGlobalSetting(
-                                                    mAdminComponentName,
+            mDevicePolicyManager.setGlobalSetting(mAdminComponentName,
                                                     Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
                                                     Integer.toString(BatteryManager.BATTERY_PLUGGED_AC
                                                             | BatteryManager.BATTERY_PLUGGED_USB
